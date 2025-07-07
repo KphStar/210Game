@@ -1,0 +1,3 @@
+/Users/admin/Desktop/210Game/build/CMakeFiles/DungeonExplorer.dir
+/Users/admin/Desktop/210Game/build/CMakeFiles/edit_cache.dir
+/Users/admin/Desktop/210Game/build/CMakeFiles/rebuild_cache.dir
