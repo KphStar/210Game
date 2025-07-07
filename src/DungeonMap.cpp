@@ -31,29 +31,33 @@ void DungeonMap::generateMaze() {
     stk.push({1,1});
     grid[1][1].type = CellType::Empty;
 
-    while(!stk.empty()) {
-        auto [cx,cy] = stk.top();
-        // collect unvisited neighbors two steps away
-        std::vector<std::pair<int,int>> neighbors;
-        const int dx[4]{2,-2,0,0}, dy[4]{0,0,2,-2};
-        for(int i=0;i<4;++i){
-            int nx = cx + dx[i], ny = cy + dy[i];
-            if(inBounds(nx,ny) && grid[ny][nx].type == CellType::Wall)
-                neighbors.emplace_back(nx,ny);
-        }
+ while(!stk.empty()) {
+    auto top = stk.top();
+    int cx = top.first; //remove this for mac 
+    int cy = top.second; // remove this for mac 
 
-        if(!neighbors.empty()) {
-            std::uniform_int_distribution<>dist(0, neighbors.size()-1);
-            auto [nx,ny] = neighbors[dist(rng)];
-            // knock down wall between
-            int wx = (cx+nx)/2, wy = (cy+ny)/2;
-            grid[wy][wx].type = CellType::Empty;
-            grid[ny][nx].type = CellType::Empty;
-            stk.push({nx,ny});
-        } else {
-            stk.pop();
-        }
+    std::vector<std::pair<int,int>> neighbors;
+    const int dx[4]{2,-2,0,0}, dy[4]{0,0,2,-2};
+    for(int i=0;i<4;++i){
+        int nx = cx + dx[i], ny = cy + dy[i];
+        if(inBounds(nx,ny) && grid[ny][nx].type == CellType::Wall)
+            neighbors.emplace_back(nx,ny);
     }
+
+    if(!neighbors.empty()) {
+        std::uniform_int_distribution<>dist(0, neighbors.size()-1);
+        auto next = neighbors[dist(rng)];
+        int nx = next.first; //remove this for mac 
+        int ny = next.second; //remove this for mac 
+
+        int wx = (cx+nx)/2, wy = (cy+ny)/2;
+        grid[wy][wx].type = CellType::Empty;
+        grid[ny][nx].type = CellType::Empty;
+        stk.push(std::make_pair(nx, ny));
+    } else {
+        stk.pop();
+    }
+}
 
     std::cout << "Maze generated (" << width << "x" << height << ")\n";
 
